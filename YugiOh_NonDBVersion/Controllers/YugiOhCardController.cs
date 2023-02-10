@@ -24,7 +24,17 @@ public class YugiOhCardController: Controller
         return View();
     }
 
+    public IActionResult Update(string? cardName, int searchType)
+    {
+        return View("Index");
+    }
+    
     public IActionResult Delete(String cardName)
+    {
+        return View();
+    }
+
+    public IActionResult Index()
     {
         return View();
     }

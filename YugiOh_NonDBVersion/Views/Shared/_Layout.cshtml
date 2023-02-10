@@ -4,9 +4,11 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewData["Title"] - YugiOh_NonDBVersion</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    @* <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/> *@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/YugiOh_NonDBVersion.styles.css" asp-append-version="true"/>
+        <link rel="stylesheet" href="~/css/bootstrap.min.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 </head>
 <body>
 <header>
@@ -25,6 +27,14 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                     </li>
+                                    <li class="nav-item dropdown">
+                                      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
+                                      <div class="dropdown-menu">
+                                          <a class="dropdown-item" asp-controller="YugiOhCard" asp-action="Index">YugiOh Card Index</a>
+                                          @* <a class="nav-link text-dark" asp-controller="CoverType" asp-action="Index">Cover Type</a> *@
+                                          @* <a class="nav-link text-dark" asp-controller="Product" asp-action="Index">Product</a> *@
+                                      </div>
+                                    </li>
                 </ul>
             </div>
         </div>
@@ -32,6 +42,7 @@
 </header>
 <div class="container">
     <main role="main" class="pb-3">
+        <partial name="_Notification"/>
         @RenderBody()
     </main>
 </div>
