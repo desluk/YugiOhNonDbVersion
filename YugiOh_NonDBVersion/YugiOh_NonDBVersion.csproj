@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="BasicConnection">
+        <HintPath>ThridParty\BasicConnection.dll</HintPath>
+      </Reference>
+      <Reference Include="CardCore">
+        <HintPath>ThridParty\CardCore.dll</HintPath>
+      </Reference>
+      <Reference Include="DebugLogger">
+        <HintPath>ThridParty\DebugLogger.dll</HintPath>
+      </Reference>
+      <Reference Include="YuGiOhApi">
+        <HintPath>ThridParty\YuGiOhApi.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+</Project>
