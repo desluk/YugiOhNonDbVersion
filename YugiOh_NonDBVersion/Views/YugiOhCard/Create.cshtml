@@ -1,2 +1,37 @@
 @model YugiOhCardViewModel
 
+
+<form method = "post">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Create Product</h2>
+            <hr/>
+        </div>
+        @* This will allow for us to not have to use the span and instead just use this one line that will *@
+        @* bring through all the errors for the form at the top neatly *@
+        <div asp-validation-summary="All"></div>
+        <div class="mb-3">
+            <label asp-for="name">Card Name To Search For</label>
+            <input asp-for="name" class="form-control"/>
+            @* <span asp-validation-for="Name" class="text-danger"></span> *@
+        </div>
+        @* <div class="mb-3"> *@
+        @*     <label asp-for="DisplayOrder"></label> *@
+        @*     <input asp-for="DisplayOrder" class="form-control"/> *@
+        @*     $1$ <span asp-validation-for="DisplayOrder" class="text-danger"></span> #1# *@
+        @* </div> *@
+        <button type="submit" class="btn btn-primary" style="width:150px">Create</button>
+        <a asp-controller="YugiOhCard" asp-action="Index" class="btn btn-secondary" style="width:150px">
+            Back to list
+        </a>
+    </div>
+</form>
+
+@section Scripts
+{
+    @{
+        //This will bring through validtion checks we added on the server side to the client side, this way we do not hit the server 
+        // everytime.
+        <partial name="_ValidationScriptsPartial"/>        
+    }
+}
