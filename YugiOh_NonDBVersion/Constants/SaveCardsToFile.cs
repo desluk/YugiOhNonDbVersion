@@ -1,4 +1,6 @@
 using CardCore;
+using Microsoft.CodeAnalysis;
+using YugiOh_NonDBVersion.Models;
 
 namespace YugiOh_NonDBVersion.Constants;
 
@@ -14,31 +16,62 @@ public static class SaveCardsToFile
 
     public static bool SaveCard(CardBase card,string location)
     {
-        if (DoesFileExistAlready(card.cardName,location))
+        
+        string cardFolderLocation = DoesFileExistAlready(card.cardName, location);
+        if (cardFolderLocation == string.Empty)
+            return false;
+
+        try
         {
-            
+            if (card is YugiOhCardModel yugiOhCard)
+            {
+                SaveTheJsonFile(yugiOhCard, cardFolderLocation);
+            }
         }
-        else // File does not exist and thus needs to be created. 
+        catch (Exception e)
         {
-            
+            return false;
         }
 
         return true;
     }
 
-    private static bool DoesFileExistAlready(string cardName, string location)
+    private static void SaveTheJsonFile(YugiOhCardModel card, string lcoation)
+    {
+       
+    }
+
+
+    private static string DoesFileExistAlready(string cardName, string location)
     {
 
         if (location[location.Length - 1] == '\\' || location[location.Length - 1] == '/')
         {
-            return File.Exists(location + cardName);
+            if (!File.Exists(location + cardName))
+            {
+                File.Create(location + cardName);
+                
+            }
         }
 
         if (location.Contains('\\'))
         {
-            return File.Exists(location+"\\"+cardName);    
+            if (!File.Exists(location +"\\"+ cardName))
+            {
+                File.Create(location +"\\"+ cardName);
+            }
+            return location + "\\" + cardName+"\\";
         }
 
-        return File.Exists(location + "/" + cardName);
+        if (location.Contains('/'))
+        {
+            if (!File.Exists(location +"/"+ cardName))
+            {
+                File.Create(location +"/"+ cardName);
+            }
+            return location + "/" + cardName+"/";
+        }
+
+        return string.Empty;
     }
 }

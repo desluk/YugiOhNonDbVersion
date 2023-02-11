@@ -1,7 +1,7 @@
 
-using CardCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Linq;
 using YugiOh_NonDBVersion.Constants;
 using YugiOh_NonDBVersion.Models;
 
@@ -16,6 +16,9 @@ public class YugiOhCardController: Controller
     public YugiOhCardController(IOptions<Settings> settings)
     {
         this.settings = settings.Value;
+        string userName = Environment.UserName;
+        string linuxName = this.settings.linuxFilePathLocation.Replace("[user]", userName);
+        this.settings.linuxFilePathLocation = this.settings.linuxFilePathLocation.Replace("[user]", userName);
     }
 
     //Get
@@ -30,16 +33,36 @@ public class YugiOhCardController: Controller
         if (cardName == null)
             return View();
 
+        if (ModelState.IsValid)
+        {
+            
+            YugiOhCardModel card = new YugiOhCardModel();
+            YugiOhConnection connection = new YugiOhConnection(cardName, SearchTerm.NameSearch);
 
-        YugiOhCardModel card = new YugiOhCardModel();
-   //     YuGiOhConnection connection = new YuGiOhConnection(cardName, SearchTerm.NameSearch);
-    //    card.CreateCardFromJson(connection.ConnectToWebsiteWithJson());
-        if (!string.IsNullOrEmpty(card.cardName))
-            SaveCardsToFile.SaveCard(card, settings.linuxFilePathLocation);
-        TempData["success"] = "Card " + card.cardName + " has been saved";
+            JToken cardToken = connection.ConnectToWebsiteWithJson();
+            if (cardToken == null)
+            {
+                TempData["error"] = "Card was not saved at all";
+                return View();
+            }
+            
+            JArray check = (JArray)cardToken["data"]!;
+            foreach (JToken token in check)
+            {
+                card.CreateCardFromJson(token);
+                if (!string.IsNullOrEmpty(card.cardName))
+                {
+                    SaveCardsToFile.SaveCard(card, settings.linuxFilePathLocation);
+                }  
+            }
+        }
+        else
+        {
+            TempData["error"] = "Card was not saved at all";
+            return View();
+        }
 
-
-        return View();
+        return View("Index");
     }
 
     public IActionResult Update(string? cardName, int searchType)

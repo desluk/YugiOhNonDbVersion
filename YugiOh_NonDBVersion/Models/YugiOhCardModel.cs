@@ -1,6 +1,7 @@
 using CardCore;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
+using Newtonsoft.Json;
 using YugiOh_NonDBVersion.Constants;
 
 namespace YugiOh_NonDBVersion.Models;
@@ -28,6 +29,7 @@ private int cardAttack;
 
     public override void CreateCardFromJson(JToken jsonObject)
     {
+        
         cardId = (int)(jsonObject["id"] ?? cardId);
         cardName = (string)(jsonObject["name"] ?? cardName)!;
         cardType = YugiOhEnums.ConvertStringToCardTypes((string)jsonObject["type"]!);

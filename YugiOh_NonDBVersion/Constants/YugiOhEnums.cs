@@ -116,7 +116,7 @@ public enum SearchTerm
 }
 #endregion
 
-public class YugiOhEnums
+public static class YugiOhEnums
 {
         #region Enums for Search Terms
 
