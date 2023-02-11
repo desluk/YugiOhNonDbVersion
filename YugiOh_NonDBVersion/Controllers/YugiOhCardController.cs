@@ -1,8 +1,10 @@
+
+using CardCore;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
 using YugiOh_NonDBVersion.Constants;
 using YugiOh_NonDBVersion.Models;
+
 
 namespace YugiOh_NonDBVersion.Controllers;
 
@@ -17,9 +19,25 @@ public class YugiOhCardController: Controller
     }
 
     //Get
-    public IActionResult Create(string? cardName, int searchType)
+    public IActionResult Create()
     {
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult Create(string? cardName, int cardSearchType)
+    {
+        if (cardName == null)
+            return View();
+
+
         YugiOhCardModel card = new YugiOhCardModel();
+   //     YuGiOhConnection connection = new YuGiOhConnection(cardName, SearchTerm.NameSearch);
+    //    card.CreateCardFromJson(connection.ConnectToWebsiteWithJson());
+        if (!string.IsNullOrEmpty(card.cardName))
+            SaveCardsToFile.SaveCard(card, settings.linuxFilePathLocation);
+        TempData["success"] = "Card " + card.cardName + " has been saved";
+
 
         return View();
     }

@@ -12,7 +12,7 @@ builder.Services.AddControllersWithViews();
 // // it will also make sure when we choose the ICategoryRepository, that interface will have the CategoryRepository class injected into it.
 // builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 //
-// builder.Services.AddRazorPages().AddRazorRuntimeCompilation(); //This does not always need to be added due to the hot reload
+builder.Services.AddRazorPages().AddRazorRuntimeCompilation(); //This does not always need to be added due to the hot reload
 
 var app = builder.Build();
 

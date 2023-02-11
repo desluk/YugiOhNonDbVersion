@@ -1,18 +1,18 @@
-@model YugiOhCardViewModel
+@model YugiOhCardModel
 
 
 <form method = "post">
     <div class="border p-3 mt-4">
         <div class="row pb-2">
-            <h2 class="text-primary">Create Product</h2>
+            <h2 class="text-primary">Search For Card(s)</h2>
             <hr/>
         </div>
         @* This will allow for us to not have to use the span and instead just use this one line that will *@
         @* bring through all the errors for the form at the top neatly *@
         <div asp-validation-summary="All"></div>
         <div class="mb-3">
-            <label asp-for="name">Card Name To Search For</label>
-            <input asp-for="name" class="form-control"/>
+            <label asp-for="cardName">Card Name To Search For</label>
+            <input asp-for="cardName" class="form-control"/>
             @* <span asp-validation-for="Name" class="text-danger"></span> *@
         </div>
         @* <div class="mb-3"> *@
@@ -20,7 +20,7 @@
         @*     <input asp-for="DisplayOrder" class="form-control"/> *@
         @*     $1$ <span asp-validation-for="DisplayOrder" class="text-danger"></span> #1# *@
         @* </div> *@
-        <button type="submit" class="btn btn-primary" style="width:150px">Create</button>
+        <button type="submit" class="btn btn-primary" style="width:150px">Search</button>
         <a asp-controller="YugiOhCard" asp-action="Index" class="btn btn-secondary" style="width:150px">
             Back to list
         </a>
