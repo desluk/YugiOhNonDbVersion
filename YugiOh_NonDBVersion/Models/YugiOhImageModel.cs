@@ -1,4 +1,5 @@
 using CardCore;
+using YugiOh_NonDBVersion.Constants;
 
 namespace YugiOh_NonDBVersion.Models;
 
@@ -52,7 +53,28 @@ public class YugiOhImageModel: ICardImage
 
     public bool GetImagesFromUrls()
     {
-        //TODO need to get this to work
-        return false;
+        YugiOhConnection connection = new YugiOhConnection();
+        List<string> listOfImages = new List<string>() { smallImageUrl, largeImageUrl };
+        Dictionary<string, byte[]> finalImages = new Dictionary<string, byte[]>();
+        
+        finalImages = connection.GetImagesFromListOfUrl(listOfImages);
+        if (finalImages.Count <= 0)
+            return false;
+
+        foreach (KeyValuePair<string,byte[]> imageCollection in finalImages)
+        {
+            if (string.CompareOrdinal(imageCollection.Key, smallImageUrl) == 0)
+            {
+                smallImage = imageCollection.Value;
+                continue;
+            }
+            if (string.CompareOrdinal(imageCollection.Key, largeImageUrl) == 0)
+            {
+                largeImage = imageCollection.Value;
+                continue;
+            }
+        }
+
+        return true;
     }
 }

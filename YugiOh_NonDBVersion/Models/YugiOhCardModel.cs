@@ -1,7 +1,6 @@
 using CardCore;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
-using Newtonsoft.Json;
 using YugiOh_NonDBVersion.Constants;
 
 namespace YugiOh_NonDBVersion.Models;
@@ -21,7 +20,17 @@ private int cardAttack;
 
     public int GetAttack() => cardAttack;
     public int GetDefense() => cardDefense;
-
+    public int GetLevel() => cardLevel;
+    public CardType GetCardType() => cardType;
+    public CardAttributes GetCardAttribute() => cardAttribute;
+    public CardFrameType GetCardFrameType() => cardFrameType;
+    public CardRace GetCardRace() => cardRace;
+    public string GetCardTypeString() => YugiOhEnums.ConvertCardTypeToString(cardType);
+    public string GetCardAttributeString() => YugiOhEnums.ConvertCardAttributeToString(cardAttribute);
+    public string GetCardFrameTypeString() => YugiOhEnums.ConvertCardFrameTypeToString(cardFrameType);
+    public string GetCardRaceString() => YugiOhEnums.ConvertCardRaceToString(cardRace);
+    
+    
     public override ICardSet GetACardSet(string setName, string setCode)
     {
         return cardSets.FirstOrDefault(x => String.CompareOrdinal(x.GetSetCode(), setCode) == 0)!;
@@ -98,7 +107,8 @@ private int cardAttack;
         JToken jsonToken = JToken.Parse(jsonString);
         if (jsonToken != null)
         {
-            //TODO
+            JArray check = (JArray)jsonToken["data"]!;
+            CreateCardFromJson(check[0]);
         }
     }
 

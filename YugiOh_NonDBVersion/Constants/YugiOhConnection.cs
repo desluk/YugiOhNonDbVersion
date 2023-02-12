@@ -40,6 +40,16 @@ public class YugiOhConnection : BaseCardConnection
         #endregion
         
         #region Constructors
+
+        /// <summary>
+        /// This one is mainly for the specific use of Getting images
+        /// </summary>
+        public YugiOhConnection()
+        {
+            httpClient = new HttpClient();
+            apiUrl = "https://db.ygoprodeck.com/api/v7/cardinfo.php";
+        }
+        
         public YugiOhConnection(string searchName, SearchTerm term)
         {
             hasSortTerm = false;
