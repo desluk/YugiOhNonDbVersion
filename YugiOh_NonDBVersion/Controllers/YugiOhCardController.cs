@@ -77,6 +77,17 @@ public class YugiOhCardController: Controller
 
     public IActionResult Index()
     {
+        List<YugiOhCardModel> listOfCards = new List<YugiOhCardModel>();
+        string[] dictionaries = Directory.GetDirectories(settings.linuxFilePathLocation);
+        foreach (string dictionary in dictionaries)
+        {
+            string[] dicCards = Directory.GetFiles(dictionary);
+            foreach (string cardPath in dicCards)
+            {
+                YugiOhCardModel card = (YugiOhCardModel)LoadingCardsFromFile.LoadCard(cardPath,TradingCardType.YugiOh);
+                listOfCards.Add(card);
+            }
+        }
         return View();
     }
     

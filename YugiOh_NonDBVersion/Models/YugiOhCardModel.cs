@@ -31,6 +31,14 @@ private int cardAttack;
     public string GetCardRaceString() => YugiOhEnums.ConvertCardRaceToString(cardRace);
     
     
+    public void SetAttack(int attack) => cardAttack=attack;
+    public void SetDefense(int defence) => cardDefense = defence;
+    public void SetLevel(int level) => cardLevel = level;
+    public void SetCardType(CardType type) => cardType = type;
+    public void SetCardAttribute(CardAttributes attributes) => cardAttribute = attributes;
+    public void SetCardFrameType(CardFrameType frameType) => cardFrameType = frameType;
+    public void SetCardRace(CardRace race) => cardRace = race;
+    
     public override ICardSet GetACardSet(string setName, string setCode)
     {
         return cardSets.FirstOrDefault(x => String.CompareOrdinal(x.GetSetCode(), setCode) == 0)!;

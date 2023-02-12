@@ -1,6 +1,4 @@
-using System.Buffers.Text;
 using CardCore;
-using Microsoft.CodeAnalysis;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using YugiOh_NonDBVersion.Models;
@@ -12,9 +10,8 @@ public static class SaveCardsToFile
     
     /*
      * File setup will be the following "location from appSettings.json" + CardName
-     * 
-     *  Within the above file location, there will be a .json with the cardName as well as an Image Folder that will contain two folders of 'Large' and 'Small'
-     *  the images will be saved as .png just to not worry about compression. 
+     *
+     * All contents is saved as a Json file. The images are saved as a base64 string which will need to be decoded to byte[]
      */
 
     public static bool SaveCard(CardBase card,string location)
@@ -67,7 +64,6 @@ public static class SaveCardsToFile
             j.Add("setRarityCode", cardSet.GetRarityCode());
             j.Add("setPrice", cardSet.GetStringPrice());
             jCardSets.Add(j);
-
         }
 
         jCard.Add("CardSets",jCardSets);

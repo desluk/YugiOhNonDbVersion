@@ -46,6 +46,16 @@ public class YugiOhImageModel: ICardImage
         this.largeImageUrl = largeImageUrl;
     }
 
+    public void SetLargeImage(byte[] largeImage)
+    {
+        this.largeImage = largeImage;
+    }
+
+    public void SetSmallImage(byte[] smallImage)
+    {
+        this.smallImage = smallImage;
+    }
+
     public void SetImageId(int imageId)
     {
         this.imageId = imageId;
