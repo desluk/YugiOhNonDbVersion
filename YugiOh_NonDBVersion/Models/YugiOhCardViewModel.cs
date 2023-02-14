@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using CardCore;
 
 namespace YugiOh_NonDBVersion.Models;

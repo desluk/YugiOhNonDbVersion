@@ -15,8 +15,6 @@ private int cardAttack;
     private CardAttributes cardAttribute;
     private CardFrameType cardFrameType;
     private CardRace cardRace;
-    
-
 
     public int GetAttack() => cardAttack;
     public int GetDefense() => cardDefense;
