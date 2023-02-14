@@ -1,4 +1,5 @@
 
+using CardCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
@@ -77,18 +78,24 @@ public class YugiOhCardController: Controller
 
     public IActionResult Index()
     {
-        List<YugiOhCardModel> listOfCards = new List<YugiOhCardModel>();
-        string[] dictionaries = Directory.GetDirectories(settings.linuxFilePathLocation);
-        foreach (string dictionary in dictionaries)
+        List<YugiOhCardViewModel> listOfCards = ConvertToViewModel(LoadingCardsFromFile.LoadAllTheCards(settings.linuxFilePathLocation,TradingCardType.YugiOh));
+
+        return View(listOfCards);
+    }
+
+    private List<YugiOhCardViewModel> ConvertToViewModel(List<CardBase> cards)
+    {
+        List<YugiOhCardViewModel> tempCards = new List<YugiOhCardViewModel>();
+
+        foreach (CardBase cardBase in cards)
         {
-            string[] dicCards = Directory.GetFiles(dictionary);
-            foreach (string cardPath in dicCards)
+            if (cardBase is YugiOhCardModel yugiOhCardModel)
             {
-                YugiOhCardModel card = (YugiOhCardModel)LoadingCardsFromFile.LoadCard(cardPath,TradingCardType.YugiOh);
-                listOfCards.Add(card);
+                YugiOhCardViewModel tempCard = new YugiOhCardViewModel(yugiOhCardModel);
+                tempCards.Add(tempCard);
             }
         }
-        return View();
+        
+        return tempCards;
     }
-    
 }

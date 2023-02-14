@@ -118,94 +118,94 @@ public enum SearchTerm
 
 public static class YugiOhEnums
 {
-        #region Enums for Search Terms
+    #region Enums for Search Terms
 
-        public static SearchTerm ConvertStringToSearchTerm(string search)
+    public static SearchTerm ConvertStringToSearchTerm(string search)
+    {
+        SearchTerm searchTerm;
+
+        switch (search.ToLower().Trim())
         {
-            SearchTerm searchTerm;
-
-            switch (search.ToLower().Trim())
-            {
-                case "fname":
-                case "fuzzy name":
-                case "fuzzy search":
-                case "fsearch":
-                    searchTerm = SearchTerm.FuzzySearch;
-                    break;
-                case "name search":
-                case "namesearch":
-                case "cardname":
-                case "card name":
-                case "card":
-                case "name":
-                    searchTerm = SearchTerm.NameSearch;
-                    break;
-                case "type search":
-                case "typesearch":
-                case "type":
-                    searchTerm = SearchTerm.TypeSearch;
-                    break;
-                case "attribute search":
-                case "attributesearch":
-                    searchTerm = SearchTerm.AttributeSearch;
-                    break;
-                case "card set search":
-                case "cardsetsearch":
-                case "cardset search":
-                case "card setsearch":
-                case "card set":
-                case "cardset":
-                    searchTerm = SearchTerm.CardsetSearch;
-                    break;
-                case "format search":
-                case "format":
-                case "game format":
-                case "gameformat":
-                    searchTerm = SearchTerm.FormatSearch;
-                    break;
-                case "stablesearch":
-                case "stable search":
-                    searchTerm = SearchTerm.StableSearch;
-                    break;
-                case "archetype":
-                case "archetype search":
-                case "arche type search":
-                    searchTerm = SearchTerm.ArhcetypeSearch;
-                    break;
-                default:
-                    searchTerm = SearchTerm.FuzzySearch;
-                    break;
-            }
-
-            return searchTerm;
+            case "fname":
+            case "fuzzy name":
+            case "fuzzy search":
+            case "fsearch":
+                searchTerm = SearchTerm.FuzzySearch;
+                break;
+            case "name search":
+            case "namesearch":
+            case "cardname":
+            case "card name":
+            case "card":
+            case "name":
+                searchTerm = SearchTerm.NameSearch;
+                break;
+            case "type search":
+            case "typesearch":
+            case "type":
+                searchTerm = SearchTerm.TypeSearch;
+                break;
+            case "attribute search":
+            case "attributesearch":
+                searchTerm = SearchTerm.AttributeSearch;
+                break;
+            case "card set search":
+            case "cardsetsearch":
+            case "cardset search":
+            case "card setsearch":
+            case "card set":
+            case "cardset":
+                searchTerm = SearchTerm.CardsetSearch;
+                break;
+            case "format search":
+            case "format":
+            case "game format":
+            case "gameformat":
+                searchTerm = SearchTerm.FormatSearch;
+                break;
+            case "stablesearch":
+            case "stable search":
+                searchTerm = SearchTerm.StableSearch;
+                break;
+            case "archetype":
+            case "archetype search":
+            case "arche type search":
+                searchTerm = SearchTerm.ArhcetypeSearch;
+                break;
+            default:
+                searchTerm = SearchTerm.FuzzySearch;
+                break;
         }
 
-        public static string ConvertingSearchTermToString(SearchTerm term)
-        {
-            switch (term)
-            {
-                case SearchTerm.FuzzySearch:
-                    return "fname";
-                case SearchTerm.AttributeSearch:
-                    return "attribute";
-                case SearchTerm.NameSearch:
-                    return "name";
-                case SearchTerm.TypeSearch:
-                    return "type";
-                case SearchTerm.CardsetSearch:
-                    return "cardset";
-                case SearchTerm.FormatSearch:
-                    return "format";
-                case SearchTerm.StableSearch:
-                    return "stable";
-                case SearchTerm.ArhcetypeSearch:
-                    return "archetype";
-                default:
-                    return "fname";
-            }
-        }
+        return searchTerm;
+    }
 
-        #endregion
+    public static string ConvertingSearchTermToString(SearchTerm term)
+    {
+        switch (term)
+        {
+            case SearchTerm.FuzzySearch:
+                return "fname";
+            case SearchTerm.AttributeSearch:
+                return "attribute";
+            case SearchTerm.NameSearch:
+                return "name";
+            case SearchTerm.TypeSearch:
+                return "type";
+            case SearchTerm.CardsetSearch:
+                return "cardset";
+            case SearchTerm.FormatSearch:
+                return "format";
+            case SearchTerm.StableSearch:
+                return "stable";
+            case SearchTerm.ArhcetypeSearch:
+                return "archetype";
+            default:
+                return "fname";
+        }
+    }
+
+    #endregion
 
     #region Enum Conversion for Card Attributes
 
@@ -252,13 +252,14 @@ public static class YugiOhEnums
                 return "water";
             default:
                 return "Dark";
-                
+
         }
     }
 
     #endregion
 
     #region Enum Conversion for Card Types
+
     public static CardRace ConvertStringToCardRace(string types, bool isSpellCard = false)
     {
         switch (types.ToLower().Trim())
@@ -342,7 +343,7 @@ public static class YugiOhEnums
                     return CardRace.TrapContinuous;
             }
             case "quickplay":
-                case "quick-play":
+            case "quick-play":
                 return CardRace.QuickPlay;
             case "ritual":
                 return CardRace.Ritual;
@@ -352,6 +353,7 @@ public static class YugiOhEnums
                 return CardRace.SpellCaster;
         }
     }
+
     public static string ConvertCardRaceToString(CardRace types)
     {
         switch (types)
@@ -403,10 +405,10 @@ public static class YugiOhEnums
             case CardRace.Zombie:
                 return "Zombie";
             case CardRace.SpellNormal:
-                case CardRace.TrapNormal:
+            case CardRace.TrapNormal:
                 return "Normal";
             case CardRace.SpellContinuous:
-                case CardRace.TrapContinuous:
+            case CardRace.TrapContinuous:
                 return "Continuous";
             case CardRace.Field:
                 return "Field";
@@ -422,7 +424,7 @@ public static class YugiOhEnums
                 return "Spellcaster";
         }
     }
-    
+
     #endregion
 
     #region Card Types
@@ -453,7 +455,7 @@ public static class YugiOhEnums
                 return CardType.PendulumTunerEffectMonster;
             case "ritualeffectmonster":
                 return CardType.RitualEffectMonster;
-            case "ritualmonster" :
+            case "ritualmonster":
                 return CardType.RitualMonster;
             case "spellcard":
                 return CardType.SpellCard;
@@ -556,6 +558,7 @@ public static class YugiOhEnums
                 return "Normal Monster";
         }
     }
+
     #endregion
 
     #region Card Frames
@@ -647,6 +650,7 @@ public static class YugiOhEnums
     }
 
     #endregion
+
     public static string RemoveWhiteSpace(string strToRemoveWhiteSpaces)
     {
         string final = strToRemoveWhiteSpaces.ToLower().Trim();

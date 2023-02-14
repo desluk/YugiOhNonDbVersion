@@ -14,6 +14,39 @@ public static class LoadingCardsFromFile
      * All contents is saved as a Json file. The images are saved as a base64 string which will need to be decoded to byte[]
      */
 
+    public static List<CardBase> LoadAllTheCards(string location,TradingCardType tradingCardType)
+    {
+        List<CardBase> allCardsInDirectory = new List<CardBase>();
+
+        switch (tradingCardType)
+        {
+            case TradingCardType.YugiOh:
+                GetAllYugiOhCardsFromDirectory(location, allCardsInDirectory);
+                break;
+            case TradingCardType.MagicTheGathering:
+            case TradingCardType.Pokemon:
+                default:
+                allCardsInDirectory.Add(new YugiOhCardModel());
+                break;
+        }
+        
+        return allCardsInDirectory;
+    }
+
+    private static void GetAllYugiOhCardsFromDirectory(string location, List<CardBase> allCardBases)
+    {
+        string[] dictionaries = Directory.GetDirectories(location);
+        foreach (string dictionary in dictionaries)
+        {
+            string[] dicCards = Directory.GetFiles(dictionary);
+            foreach (string cardPath in dicCards)
+            {
+                YugiOhCardModel card = (YugiOhCardModel) LoadCard(cardPath,TradingCardType.YugiOh);
+                allCardBases.Add(card);
+            }
+        }
+    }
+
     public static CardBase LoadCard(string location,TradingCardType tradingCardType)
     {
         CardBase cardToLoad = null;
@@ -30,6 +63,8 @@ public static class LoadingCardsFromFile
                 break;
             case TradingCardType.MagicTheGathering:
             case TradingCardType.Pokemon:
+                default:
+                cardToLoad = new YugiOhCardModel();
                 return null;
         }
 
