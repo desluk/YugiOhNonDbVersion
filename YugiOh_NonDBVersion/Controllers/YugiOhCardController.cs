@@ -63,7 +63,7 @@ public class YugiOhCardController: Controller
             return View();
         }
 
-        return View("Index");
+        return View();
     }
 
     public IActionResult Update(string? cardName, int searchType)

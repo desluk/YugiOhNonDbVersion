@@ -9,7 +9,7 @@ public class YugiOhCardViewModel
     public string descrtion { get;  }
     public double[] prices { get;  }
     public List<string> sets { get;  }
-    public List<byte[]> smallCardImages { get;  }
+    public List<string> smallCardImages { get;  }
     public List<string> smallCardImageUrl { get; } 
     public List<string> searchTypes { get;  }
 
@@ -22,15 +22,19 @@ public class YugiOhCardViewModel
             prices = new[] { priceModel.GetAmazonPrice(), priceModel.GetMarketPrice(), priceModel.GetCoolStuffPrice(), priceModel.GetCoolStuffPrice(),priceModel.GetEBayPrice(),priceModel.GetTcgPlayerPrice() };
         else
             prices = new[] {0.0,0.0,0.0,0.0,0.0,0.0 };
-        smallCardImages = new List<byte[]>();
+        smallCardImages = new List<string>();
         smallCardImageUrl = new List<string>();
         List<ICardImage> images = card.GetAllImages();
         if (images != null)
         {
             foreach (ICardImage cardImage in images)
             {
-                if(cardImage.GetSmallImages() != null)
-                    smallCardImages.Add(cardImage.GetSmallImages());
+                if (cardImage.GetSmallImages() != null)
+                {
+                    smallCardImages.Add(String.Format("data:image/jpg;base64,{0}",
+                        Convert.ToBase64String(cardImage.GetSmallImages())));
+                }
+                    
                 smallCardImageUrl.Add(cardImage.GetSmallImageUrl());
             }    
         }

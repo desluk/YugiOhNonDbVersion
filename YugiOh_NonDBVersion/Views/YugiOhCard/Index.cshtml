@@ -1,4 +1,4 @@
-@model List<YugiOhCardViewModel>
+@model IEnumerable<YugiOhCardViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -28,4 +28,28 @@
         <th>Price</th>
     </tr>
     </thead>
+     <tbody>
+        @foreach (var obj in Model)
+        {
+            <tr width="50%">
+                <td>@obj.name</td>
+                <td>@obj.descrtion</td>
+                <td>
+                    <img src="@obj.smallCardImages[0]" />
+                </td>
+                <td>  </td>
+                <td> @obj.prices[0] </td>
+                <td>
+                    <div class="w-75 btn-group" role="group">
+                        <a asp-controller="YugiOhCard" asp-action="Update" asp-route-id="@obj.name"><i class="bi bi-pencil-square"></i>Edit</a>
+                    </div>
+                </td>
+                <td>
+                    <div class="w-75 btn-group" role="group">
+                        <a asp-controller="YugiOhCard" asp-action="Delete" asp-route-id="@obj.name"><i class="bi bi-x-circle"></i>Delete</a>
+                    </div>
+                </td>
+            </tr>
+        }
+        </tbody>
 </table>
