@@ -66,9 +66,9 @@ public class YugiOhCardController: Controller
         return View();
     }
 
-    public IActionResult Update(string? cardName, int searchType)
+    public IActionResult Update(string? cardName)
     {
-        return View("Index");
+        return View();
     }
     
     public IActionResult Delete(String cardName)
