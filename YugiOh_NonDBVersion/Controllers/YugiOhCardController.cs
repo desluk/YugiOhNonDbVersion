@@ -41,20 +41,13 @@ public class YugiOhCardController: Controller
             YugiOhConnection connection = new YugiOhConnection(cardName, SearchTerm.NameSearch);
 
             JToken cardToken = connection.ConnectToWebsiteWithJson();
-            if (cardToken == null)
-            {
-                TempData["error"] = "Card was not saved at all";
-                return View();
-            }
-            
+
             JArray check = (JArray)cardToken["data"]!;
             foreach (JToken token in check)
             {
                 card.CreateCardFromJson(token);
                 if (!string.IsNullOrEmpty(card.cardName))
-                {
                     SaveCardsToFile.SaveCard(card, settings.linuxFilePathLocation);
-                }  
             }
         }
         else
@@ -63,12 +56,21 @@ public class YugiOhCardController: Controller
             return View();
         }
 
-        return View();
+        return RedirectToAction("Index");
     }
 
-    public IActionResult Update(string? cardName)
+    public IActionResult DetailedCard(string? cardName)
     {
-        return View();
+        if (string.IsNullOrEmpty(cardName))
+        {
+            return RedirectToAction("Index");
+        }
+
+        YugiOhDetailCardModel detailedView = new YugiOhDetailCardModel(
+            (YugiOhCardModel)LoadingCardsFromFile.LoadCard(cardName, settings.linuxFilePathLocation, TradingCardType.YugiOh));
+        
+        
+        return View(detailedView);
     }
     
     public IActionResult Delete(String cardName)

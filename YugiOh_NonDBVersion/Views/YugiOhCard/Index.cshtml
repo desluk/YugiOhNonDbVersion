@@ -41,12 +41,12 @@
                 <td> @obj.prices[0] </td>
                 <td>
                     <div class="w-75 btn-group" role="group">
-                        <a asp-controller="YugiOhCard" asp-action="Update" asp-route-id="@obj.name"><i class="bi bi-pencil-square"></i>Edit</a>
+                        <a asp-controller="YugiOhCard" asp-action="DetailedCard" asp-route-cardName="@obj.name"><i class="btn btn-primary btn-sm">View</i></a>
                     </div>
                 </td>
                 <td>
                     <div class="w-75 btn-group" role="group">
-                        <a asp-controller="YugiOhCard" asp-action="Delete" asp-route-id="@obj.name"><i class="bi bi-x-circle"></i>Delete</a>
+                        <a asp-controller="YugiOhCard" asp-action="Delete" asp-route-cardName="@obj.name"><i class="btn btn-primary btn-sm">Delete</i></a>
                     </div>
                 </td>
             </tr>
