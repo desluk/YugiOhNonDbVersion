@@ -10,6 +10,7 @@ public class YugiOhCardViewModel
     public List<string> sets { get; }
     public List<string> smallCardImages { get; }
     public List<string> smallCardImageUrl { get; }
+    public double highestPrice { get; set; }
 
     public YugiOhCardViewModel(YugiOhCardModel card)
     {
@@ -24,20 +25,25 @@ public class YugiOhCardViewModel
             };
         else
             prices = new[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+
+        foreach (var VARIABLE in prices)
+        {
+            if (highestPrice < VARIABLE)
+                highestPrice = VARIABLE;
+        }
+        
         smallCardImages = new List<string>();
         sets = new List<string>();
         smallCardImageUrl = new List<string>();
         List<ICardImage> images = card.GetAllImages();
-
-        foreach (ICardImage cardImage in images)
-        {
-            if (cardImage.GetSmallImages() != null)
+        
+            if (card.GetAllImages()[0].GetSmallImages() != null)
             {
                 smallCardImages.Add(String.Format("data:image/png;base64,{0}",
-                    Convert.ToBase64String(cardImage.GetSmallImages())));
+                    Convert.ToBase64String(card.GetAllImages()[0].GetSmallImages())));
             }
-            smallCardImageUrl.Add(cardImage.GetSmallImageUrl());
-        }
+            smallCardImageUrl.Add(card.GetAllImages()[0].GetSmallImageUrl());
+        
         List<ICardSet> cardSets = card.GetAllCardSets();
         foreach (ICardSet set in cardSets)
         {

@@ -3,15 +3,46 @@
 <form method = "post">
     <div class="border p-3 mt-4">
         <div class="row pb-2">
-            <h2 class="text-primary">Create Product</h2>
+            <h2 class="text-primary">@Model.name</h2>
             <hr/>
         </div>
         <div asp-validation-summary="All"></div>
-        <div class="mb-3">
-            <label asp-for="name"></label>
-            <input asp-for="desc" class="form-control"/>
-            @* <span asp-validation-for="Name" class="text-danger"></span> *@
-        </div>
+      <br/>
+      <table class="table table-bordered table-striped" style="width:100%">
+          <thead>
+          <tr>
+              <th>Description</th>
+              <th>Image</th>
+              <th>Sets</th>
+              <th>Price</th>
+          </tr>
+          </thead>
+           <tbody>
+           <tr width="100%">
+                      
+                      <td style="width:30%">@Model.desc</td>
+               <td>
+                   @foreach (string img in Model.largeImages)
+                   {
+                       <img src="@img"/>    
+                       <br/>
+                       <br/>
+                   }
+                   
+               </td>
+               <td> @foreach (string obj in Model.setNames)
+                    {
+                        <p>@obj</p>
+                        <br/>
+                    }
+               </td>
+               @* List of items within the Sets Price. *@
+               @* 0: Amazon, 1: tcgPlayer, 2: market, 3: eBay, 4: cool *@
+               <td> @Model.prices[0] </td>
+           </tr>
+           
+              </tbody>
+      </table>
         <button type="submit" class="btn btn-primary" style="width:150px">Create</button>
         <a asp-controller="YugiOhCard" asp-action="Index" class="btn btn-secondary" style="width:150px">
             Back to list

@@ -12,7 +12,8 @@ public class YugiOhDetailCardModel
     public int level { get; set; }
     public List<string> setNames { get; set; }
     public List<string> largeImages { get; set; }
-   
+    public List<double> prices { get; set; }
+
 
     public YugiOhDetailCardModel(YugiOhCardModel card)
     {
@@ -24,7 +25,7 @@ public class YugiOhDetailCardModel
         level = card.GetLevel();
         setNames = new List<string>();
         largeImages = new List<string>();
-      
+        prices = new List<double>();
         foreach (ICardSet set in card.GetAllCardSets())
         {
             setNames.Add(set.GetSetName());
@@ -35,5 +36,17 @@ public class YugiOhDetailCardModel
             largeImages.Add(String.Format("data:image/png;base64,{0}",
                 Convert.ToBase64String(cardImage.GetLargeImages())));
         }
+        // List of items within the Sets Price.
+        // 0: Amazon, 1: tcgPlayer, 2: market, 3: eBay, 4: cool
+        double priceDebugger = card.GetCardPrice().GetAmazonPrice();
+        prices.Add(priceDebugger);
+        priceDebugger = card.GetCardPrice().GetTcgPlayerPrice();
+        prices.Add(priceDebugger);
+        priceDebugger = card.GetCardPrice().GetMarketPrice();
+        prices.Add(priceDebugger);
+        priceDebugger = card.GetCardPrice().GetEBayPrice();
+        prices.Add(priceDebugger);
+        priceDebugger = card.GetCardPrice().GetCoolStuffPrice();
+        prices.Add(priceDebugger);
     }
 }

@@ -10,6 +10,8 @@ public class YugiOhPriceModel: ICardPrice
     private string amazonPrice;
     private string coolPrice;
     
+    System.Globalization.NumberStyles style = System.Globalization.NumberStyles.AllowDecimalPoint;
+    
     public void SetMarketPrice(string marketPrice)
     {
         this.marketPrice = marketPrice;
@@ -37,26 +39,26 @@ public class YugiOhPriceModel: ICardPrice
 
     public double GetMarketPrice()
     {
-        return Convert.ToDouble(marketPrice);
+        return double.Parse(marketPrice, style, System.Globalization.CultureInfo.CurrentCulture);
     }
 
     public double GetTcgPlayerPrice()
     {
-        return Convert.ToDouble(tcgPlayerPrice);
+        return double.Parse(tcgPlayerPrice, style, System.Globalization.CultureInfo.CurrentCulture);
     }
 
     public double GetEBayPrice()
     {
-        return Convert.ToDouble(eBayPrice);
+        return double.Parse(eBayPrice, style, System.Globalization.CultureInfo.CurrentCulture);
     }
 
     public double GetAmazonPrice()
     {
-        return Convert.ToDouble(amazonPrice);
+        return double.Parse(amazonPrice, style, System.Globalization.CultureInfo.CurrentCulture);
     }
 
     public double GetCoolStuffPrice()
     {
-        return Convert.ToDouble(coolPrice);
+        return double.Parse(coolPrice, style, System.Globalization.CultureInfo.CurrentCulture);
     }
 }
