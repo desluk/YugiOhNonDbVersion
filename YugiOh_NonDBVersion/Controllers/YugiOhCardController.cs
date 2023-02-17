@@ -73,9 +73,16 @@ public class YugiOhCardController: Controller
         return View(detailedView);
     }
     
-    public IActionResult Delete(String cardName)
+    public IActionResult Delete(String? cardName)
     {
-        return View();
+        if (string.IsNullOrEmpty(cardName))
+        {
+            return RedirectToAction("Index");
+        }
+
+        RemoveCardInFile.DeleteCard(cardName, settings.linuxFilePathLocation);
+        
+        return RedirectToAction("Index");
     }
 
     public IActionResult Index()
