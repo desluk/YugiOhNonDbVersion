@@ -38,7 +38,13 @@
                </td>
                @* List of items within the Sets Price. *@
                @* 0: Amazon, 1: tcgPlayer, 2: market, 3: eBay, 4: cool *@
-               <td> @Model.prices[0] </td>
+               <td>
+                   @foreach (double obj in Model.prices)
+                   {
+                       <p>R @Math.FusedMultiplyAdd(obj,20.0,0)</p>
+                       <br/>
+                   }
+               </td>
            </tr>
            
               </tbody>
