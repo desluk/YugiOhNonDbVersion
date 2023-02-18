@@ -27,7 +27,6 @@ public class YugiOhCardController: Controller
     //Get
     public IActionResult Create()
     {
-        
         return View(createCardModel);
     }
 
@@ -40,7 +39,6 @@ public class YugiOhCardController: Controller
         if (ModelState.IsValid)
         {
             
-            YugiOhCardModel card = new YugiOhCardModel();
             YugiOhConnection connection = new YugiOhConnection(cardName, YugiOhEnums.ConvertStringToSearchTerm(cardSearchType));
 
             JToken cardToken = connection.ConnectToWebsiteWithJson();
@@ -48,6 +46,7 @@ public class YugiOhCardController: Controller
             JArray check = (JArray)cardToken["data"]!;
             foreach (JToken token in check)
             {
+                YugiOhCardModel card = new YugiOhCardModel();
                 card.CreateCardFromJson(token);
                 if (!string.IsNullOrEmpty(card.cardName))
                     SaveCardsToFile.SaveCard(card, settings.linuxFilePathLocation);

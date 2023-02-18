@@ -35,6 +35,9 @@ public static class LoadingCardsFromFile
 
     private static void GetAllYugiOhCardsFromDirectory(string location, List<CardBase> allCardBases)
     {
+        if (!Directory.Exists(location))
+            Directory.CreateDirectory(location);
+        
         string[] dictionaries = Directory.GetDirectories(location);
         foreach (string dictionary in dictionaries)
         {
