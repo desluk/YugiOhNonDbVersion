@@ -124,11 +124,12 @@ public static class YugiOhEnums
     {
         SearchTerm searchTerm;
 
-        switch (search.ToLower().Trim())
+        switch (RemoveWhiteSpace(search))
         {
             case "fname":
             case "fuzzy name":
             case "fuzzy search":
+            case "fuzzysearch":
             case "fsearch":
                 searchTerm = SearchTerm.FuzzySearch;
                 break;
@@ -211,7 +212,7 @@ public static class YugiOhEnums
 
     public static CardAttributes ConvertStringToCardAttribute(string attribute)
     {
-        switch (attribute.ToLower().Trim())
+        switch (RemoveWhiteSpace(attribute))
         {
             case "dark":
                 return CardAttributes.Dark;
@@ -262,7 +263,7 @@ public static class YugiOhEnums
 
     public static CardRace ConvertStringToCardRace(string types, bool isSpellCard = false)
     {
-        switch (types.ToLower().Trim())
+        switch (RemoveWhiteSpace(types))
         {
             case "aqua":
                 return CardRace.Aqua;

@@ -13,10 +13,12 @@ public class YugiOhCardController: Controller
 {
     
     private readonly Settings settings;
+    private YugiOhCreateCardModel createCardModel;
 
     public YugiOhCardController(IOptions<Settings> settings)
     {
         this.settings = settings.Value;
+        createCardModel = new YugiOhCreateCardModel();
         string userName = Environment.UserName;
         string linuxName = this.settings.linuxFilePathLocation.Replace("[user]", userName);
         this.settings.linuxFilePathLocation = this.settings.linuxFilePathLocation.Replace("[user]", userName);
@@ -25,20 +27,21 @@ public class YugiOhCardController: Controller
     //Get
     public IActionResult Create()
     {
-        return View();
+        
+        return View(createCardModel);
     }
 
     [HttpPost]
-    public IActionResult Create(string? cardName, int cardSearchType)
+    public IActionResult Create(string? cardName, string? cardSearchType)
     {
-        if (cardName == null)
-            return View();
+        if (string.IsNullOrEmpty(cardName) || string.IsNullOrEmpty(cardSearchType))
+            return View(createCardModel);
 
         if (ModelState.IsValid)
         {
             
             YugiOhCardModel card = new YugiOhCardModel();
-            YugiOhConnection connection = new YugiOhConnection(cardName, SearchTerm.NameSearch);
+            YugiOhConnection connection = new YugiOhConnection(cardName, YugiOhEnums.ConvertStringToSearchTerm(cardSearchType));
 
             JToken cardToken = connection.ConnectToWebsiteWithJson();
 
@@ -53,7 +56,7 @@ public class YugiOhCardController: Controller
         else
         {
             TempData["error"] = "Card was not saved at all";
-            return View();
+            return View(createCardModel);
         }
 
         return RedirectToAction("Index");

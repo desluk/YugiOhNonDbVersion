@@ -1,4 +1,4 @@
-@model YugiOhCardModel
+@model YugiOhCreateCardModel
 
 
 <form method = "post">
@@ -15,11 +15,13 @@
             <input asp-for="cardName" class="form-control"/>
             @* <span asp-validation-for="Name" class="text-danger"></span> *@
         </div>
-        @* <div class="mb-3"> *@
-        @*     <label asp-for="DisplayOrder"></label> *@
-        @*     <input asp-for="DisplayOrder" class="form-control"/> *@
-        @*     $1$ <span asp-validation-for="DisplayOrder" class="text-danger"></span> #1# *@
-        @* </div> *@
+        <div class="btn-group mb-3" role="group" aria-label="Basic radio toggle button group" >
+            @foreach (string radioBut in @Model.searchTermList)
+            {
+                <input asp-for="cardSearchType" class="btn-check" id="@radioBut" type="radio" name="cardSearchType" value="@radioBut" />
+                <label asp-for="cardSearchType" type="radio" class="btn btn-outline-primary" for="@radioBut">@radioBut</label>      
+            }
+        </div>
         <button type="submit" class="btn btn-primary" style="width:150px">Search</button>
         <a asp-controller="YugiOhCard" asp-action="Index" class="btn btn-secondary" style="width:150px">
             Back to list
