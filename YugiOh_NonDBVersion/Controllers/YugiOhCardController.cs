@@ -1,4 +1,5 @@
 
+using System.Runtime.InteropServices;
 using CardCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -20,8 +21,9 @@ public class YugiOhCardController: Controller
         this.settings = settings.Value;
         createCardModel = new YugiOhCreateCardModel();
         string userName = Environment.UserName;
-        string linuxName = this.settings.linuxFilePathLocation.Replace("[user]", userName);
         this.settings.linuxFilePathLocation = this.settings.linuxFilePathLocation.Replace("[user]", userName);
+        this.settings.windowsFilePathLocation = this.settings.windowsFilePathLocation.Replace("[user]", userName);
+        
     }
 
     //Get
@@ -38,6 +40,12 @@ public class YugiOhCardController: Controller
 
         if (ModelState.IsValid)
         {
+
+            if (DoesCardAlreadyExist(cardName) && cardSearchType.Contains("name"))
+            {
+                TempData["success"] = "Card already exists please use the Detailed Refresh";
+                return RedirectToAction("Index");
+            }
             
             YugiOhConnection connection = new YugiOhConnection(cardName, YugiOhEnums.ConvertStringToSearchTerm(cardSearchType));
 
@@ -49,17 +57,19 @@ public class YugiOhCardController: Controller
                 YugiOhCardModel card = new YugiOhCardModel();
                 card.CreateCardFromJson(token);
                 if (!string.IsNullOrEmpty(card.cardName))
-                    SaveCardsToFile.SaveCard(card, settings.linuxFilePathLocation);
+                    SaveCardsToFile.SaveCard(card, GetLocationPath());
             }
         }
         else
         {
-            TempData["error"] = "Card was not saved at all";
+            TempData["error"] = "Card was not saved";
             return View(createCardModel);
         }
-
+        TempData["success"] = "Card was saved";
         return RedirectToAction("Index");
     }
+
+
 
     public IActionResult DetailedCard(string? cardName)
     {
@@ -69,7 +79,7 @@ public class YugiOhCardController: Controller
         }
 
         YugiOhDetailCardModel detailedView = new YugiOhDetailCardModel(
-            (YugiOhCardModel)LoadingCardsFromFile.LoadCard(cardName, settings.linuxFilePathLocation, TradingCardType.YugiOh));
+            (YugiOhCardModel)LoadingCardsFromFile.LoadCard(cardName, GetLocationPath(), TradingCardType.YugiOh));
         
         
         return View(detailedView);
@@ -82,14 +92,14 @@ public class YugiOhCardController: Controller
             return RedirectToAction("Index");
         }
 
-        RemoveCardInFile.DeleteCard(cardName, settings.linuxFilePathLocation);
+        RemoveCardInFile.DeleteCard(cardName, GetLocationPath());
         
         return RedirectToAction("Index");
     }
 
     public IActionResult Index()
     {
-        List<YugiOhCardViewModel> listOfCards = ConvertToViewModel(LoadingCardsFromFile.LoadAllTheCards(settings.linuxFilePathLocation,TradingCardType.YugiOh));
+        List<YugiOhCardViewModel> listOfCards = ConvertToViewModel(LoadingCardsFromFile.LoadAllTheCards(GetLocationPath(),TradingCardType.YugiOh));
 
         return View(listOfCards);
     }
@@ -108,5 +118,31 @@ public class YugiOhCardController: Controller
         }
         
         return tempCards;
+    }
+
+    private string GetLocationPath()
+    {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            return settings.linuxFilePathLocation;
+        }
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            return settings.windowsFilePathLocation;
+        }
+
+        return settings.linuxFilePathLocation;
+    }
+    
+    private bool DoesCardAlreadyExist(string cardName)
+    {
+        string finalpath = LoadingCardsFromFile.CheckFileIsThere(cardName, GetLocationPath());
+        if (string.IsNullOrEmpty(finalpath))
+        {
+            return false;
+        }
+
+        return System.IO.File.Exists(finalpath);
+
     }
 }

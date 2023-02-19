@@ -106,7 +106,7 @@ public static class LoadingCardsFromFile
         return string.Empty;
     }
     
-    private static string CheckFileIsThere(string cardName, string location)
+    public static string CheckFileIsThere(string cardName, string location)
     {
         if (location[location.Length - 1] == '\\' || location[location.Length - 1] == '/')
         {
