@@ -40,7 +40,7 @@ public class YugiOhCardController: Controller
 
         if (ModelState.IsValid)
         {
-            if (DoesCardAlreadyExist(cardName) && cardSearchType.Contains("name"))
+            if (DoesCardAlreadyExist(cardName) && cardSearchType.ToLower().Contains("name"))
             {
                 TempData["success"] = "Card already exists please use the Detailed Refresh";
                 return RedirectToAction("Index");
@@ -67,7 +67,7 @@ public class YugiOhCardController: Controller
             GetAndSaveCards(cardName,"Name Search");
         }
 
-        return RedirectToAction("DetailedCard");
+        return RedirectToAction("DetailedCard", new{cardName=cardName});
     }
     
     private void GetAndSaveCards(string cardName, string cardSearchType)
