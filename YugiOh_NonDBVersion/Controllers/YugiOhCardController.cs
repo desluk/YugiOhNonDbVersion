@@ -40,25 +40,13 @@ public class YugiOhCardController: Controller
 
         if (ModelState.IsValid)
         {
-
             if (DoesCardAlreadyExist(cardName) && cardSearchType.Contains("name"))
             {
                 TempData["success"] = "Card already exists please use the Detailed Refresh";
                 return RedirectToAction("Index");
             }
-            
-            YugiOhConnection connection = new YugiOhConnection(cardName, YugiOhEnums.ConvertStringToSearchTerm(cardSearchType));
 
-            JToken cardToken = connection.ConnectToWebsiteWithJson();
-
-            JArray check = (JArray)cardToken["data"]!;
-            foreach (JToken token in check)
-            {
-                YugiOhCardModel card = new YugiOhCardModel();
-                card.CreateCardFromJson(token);
-                if (!string.IsNullOrEmpty(card.cardName))
-                    SaveCardsToFile.SaveCard(card, GetLocationPath());
-            }
+            GetAndSaveCards(cardName, cardSearchType);
         }
         else
         {
@@ -69,6 +57,34 @@ public class YugiOhCardController: Controller
         return RedirectToAction("Index");
     }
 
+    public IActionResult RefreshCard(string? cardName)
+    {
+        if (string.IsNullOrEmpty(cardName))
+            return RedirectToAction("Index");
+
+        if (ModelState.IsValid)
+        {
+            GetAndSaveCards(cardName,"Name Search");
+        }
+
+        return RedirectToAction("DetailedCard");
+    }
+    
+    private void GetAndSaveCards(string cardName, string cardSearchType)
+    {
+        YugiOhConnection connection = new YugiOhConnection(cardName, YugiOhEnums.ConvertStringToSearchTerm(cardSearchType));
+
+        JToken cardToken = connection.ConnectToWebsiteWithJson();
+
+        JArray check = (JArray)cardToken["data"]!;
+        foreach (JToken token in check)
+        {
+            YugiOhCardModel card = new YugiOhCardModel();
+            card.CreateCardFromJson(token);
+            if (!string.IsNullOrEmpty(card.cardName))
+                SaveCardsToFile.SaveCard(card, GetLocationPath());
+        }
+    }
 
 
     public IActionResult DetailedCard(string? cardName)
