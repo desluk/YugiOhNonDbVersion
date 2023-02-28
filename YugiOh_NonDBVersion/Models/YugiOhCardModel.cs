@@ -1,6 +1,7 @@
 using CardCore;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
+using CardSearchApi.Debug;
 using YugiOh_NonDBVersion.Constants;
 
 namespace YugiOh_NonDBVersion.Models;
@@ -44,24 +45,31 @@ private int cardAttack;
 
     public override void CreateCardFromJson(JToken jsonObject)
     {
-        
-        cardId = (int)(jsonObject["id"] ?? cardId);
-        cardName = (string)(jsonObject["name"] ?? cardName)!;
-        cardType = YugiOhEnums.ConvertStringToCardTypes((string)jsonObject["type"]!);
-        cardFrameType = YugiOhEnums.ConvertStringToCardFrameTypes((string)jsonObject["frameType"]!);
-        cardDescription = (string)jsonObject["desc"]!;
-        cardAttack = (int)jsonObject["atk"]!;
-        cardDefense = (int)jsonObject["def"]!;
-        cardLevel = (int)jsonObject["level"]!;
-        cardRace = YugiOhEnums.ConvertStringToCardRace((string)jsonObject["race"]!);
-        cardAttribute = YugiOhEnums.ConvertStringToCardAttribute((string)jsonObject["attribute"]!);
+        try
+        {
+            cardId = (int)(jsonObject["id"] ?? cardId);
+            cardName = (string)(jsonObject["name"] ?? cardName)!;
+            cardType = YugiOhEnums.ConvertStringToCardTypes((string)jsonObject["type"]!);
+            cardFrameType = YugiOhEnums.ConvertStringToCardFrameTypes((string)jsonObject["frameType"]!);
+            cardDescription = (string)jsonObject["desc"]!;
+            cardAttack = (int)jsonObject["atk"]!;
+            cardDefense = (int)jsonObject["def"]!;
+            cardLevel = (int)jsonObject["level"]!;
+            cardRace = YugiOhEnums.ConvertStringToCardRace((string)jsonObject["race"]!);
+            cardAttribute = YugiOhEnums.ConvertStringToCardAttribute((string)jsonObject["attribute"]!);
 
-        if ((JArray)jsonObject["card_sets"] != null)
-            SetupCardSets((JArray)jsonObject["card_sets"]);
-        if ((JArray)jsonObject["card_images"] != null)
-            SetupCardImages((JArray)jsonObject["card_images"]);
-        if ((JArray)jsonObject["card_prices"] != null)
-            SetupCardPrices((JArray)jsonObject["card_prices"]);
+            if ((JArray)jsonObject["card_sets"] != null)
+                SetupCardSets((JArray)jsonObject["card_sets"]);
+            if ((JArray)jsonObject["card_images"] != null)
+                SetupCardImages((JArray)jsonObject["card_images"]);
+            if ((JArray)jsonObject["card_prices"] != null)
+                SetupCardPrices((JArray)jsonObject["card_prices"]);
+        }
+        catch
+        {
+            DebugLog.WriteDebugLog("There was no card to store");
+        }
+
     }
 
     private void SetupCardPrices(JArray? jArray)

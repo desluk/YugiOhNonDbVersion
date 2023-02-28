@@ -45,6 +45,12 @@ public class YugiOhCardViewModel
             smallCardImageUrl.Add(card.GetAllImages()[0].GetSmallImageUrl());
         
         List<ICardSet> cardSets = card.GetAllCardSets();
+        if (cardSets.Count <= 0)
+        {
+            ICardSet temp = new YugiOhSetModel();
+            temp.SetSetName("No Set");
+            cardSets.Add(temp);
+        }
         foreach (ICardSet set in cardSets)
         {
             sets.Add(set.GetSetName());
