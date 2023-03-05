@@ -16,6 +16,7 @@ private int cardAttack;
     private CardAttributes cardAttribute;
     private CardFrameType cardFrameType;
     private CardRace cardRace;
+    private int linkValue;
 
     public int GetAttack() => cardAttack;
     public int GetDefense() => cardDefense;
@@ -52,11 +53,31 @@ private int cardAttack;
             cardType = YugiOhEnums.ConvertStringToCardTypes((string)jsonObject["type"]!);
             cardFrameType = YugiOhEnums.ConvertStringToCardFrameTypes((string)jsonObject["frameType"]!);
             cardDescription = (string)jsonObject["desc"]!;
-            cardAttack = (int)jsonObject["atk"]!;
-            cardDefense = (int)jsonObject["def"]!;
-            cardLevel = (int)jsonObject["level"]!;
+            
             cardRace = YugiOhEnums.ConvertStringToCardRace((string)jsonObject["race"]!);
-            cardAttribute = YugiOhEnums.ConvertStringToCardAttribute((string)jsonObject["attribute"]!);
+            if (cardType == CardType.SpellCard || cardType == CardType.TrapCard || cardType == CardType.SkillCard)
+            {
+                cardAttack = 0;
+                cardDefense = 0;
+                
+            }
+            else
+            {
+                cardAttribute = YugiOhEnums.ConvertStringToCardAttribute((string)jsonObject["attribute"]!);
+                cardAttack = (int)jsonObject["atk"]!;
+               
+                if (cardType == CardType.LinkMonster)
+                {
+                    cardDefense = 0;
+                    cardLevel = (int)jsonObject["linkval"]!;
+                }
+                else
+                {
+                    cardLevel = (int)jsonObject["level"]!;
+                    cardDefense = (int)jsonObject["def"]!;
+                }
+                    
+            }
 
             if ((JArray)jsonObject["card_sets"] != null)
                 SetupCardSets((JArray)jsonObject["card_sets"]);
@@ -69,7 +90,6 @@ private int cardAttack;
         {
             DebugLog.WriteDebugLog("There was no card to store");
         }
-
     }
 
     private void SetupCardPrices(JArray? jArray)

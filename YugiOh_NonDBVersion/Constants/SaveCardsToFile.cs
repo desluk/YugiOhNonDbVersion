@@ -40,7 +40,7 @@ public static class SaveCardsToFile
     {
         MakeSureImagesArePresent(card);
         JObject jCard = new JObject();
-
+        
         JArray jImages = new JArray();
         foreach (ICardImage cardImage in card.GetAllImages())
         {

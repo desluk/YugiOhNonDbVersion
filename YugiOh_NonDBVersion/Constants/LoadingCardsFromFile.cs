@@ -1,5 +1,6 @@
 using System.Globalization;
 using CardCore;
+using CardSearchApi.Debug;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using YugiOh_NonDBVersion.Models;
@@ -139,16 +140,24 @@ public static class LoadingCardsFromFile
     {
         YugiOhCardModel card = new YugiOhCardModel();
         JToken cardToken = ReadCard(location);
-        card.cardId = (int)(cardToken["CardId"]!);
-        card.cardName = (string)cardToken["CardName"]!;
-        card.SetCardType(YugiOhEnums.ConvertStringToCardTypes((string)cardToken["CardType"]!));
-        card.SetCardFrameType(YugiOhEnums.ConvertStringToCardFrameTypes((string)cardToken["CardFrame"]!));
-        card.SetCardDescription((string)cardToken["CardDescription"]!);
-        card.SetAttack((int)cardToken["CardAttack"]!);
-        card.SetDefense((int)cardToken["CardDefence"]!);
-        card.SetLevel((int)cardToken["CardLevel"]!);
-        card.SetCardRace(YugiOhEnums.ConvertStringToCardRace((string)cardToken["CardRace"]!));
-        card.SetCardAttribute(YugiOhEnums.ConvertStringToCardAttribute((string)cardToken["CardAttribute"]!));
+        try
+        {
+            card.cardId = (int)(cardToken["CardId"]!);
+            card.cardName = (string)cardToken["CardName"]!;
+            card.SetCardType(YugiOhEnums.ConvertStringToCardTypes((string)cardToken["CardType"]!));
+            card.SetCardFrameType(YugiOhEnums.ConvertStringToCardFrameTypes((string)cardToken["CardFrame"]!));
+            card.SetCardDescription((string)cardToken["CardDescription"]!);
+            card.SetAttack((int)cardToken["CardAttack"]!);
+            card.SetDefense((int)cardToken["CardDefence"]!);
+            card.SetLevel((int)cardToken["CardLevel"]!);
+            card.SetCardRace(YugiOhEnums.ConvertStringToCardRace((string)cardToken["CardRace"]!));
+            card.SetCardAttribute(YugiOhEnums.ConvertStringToCardAttribute((string)cardToken["CardAttribute"]!));
+        }
+        catch (Exception e)
+        {
+            DebugLog.WriteDebugLog("There was an issue");
+        }
+
 
         if ((JArray)cardToken["CardImages"] != null)
         {
